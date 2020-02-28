@@ -96,11 +96,9 @@ public class EditContacts extends JDialog {
                         JOptionPane.showMessageDialog(null, "Select a contact first",
                                 "Error -- no contact selected", JOptionPane.ERROR_MESSAGE);
                         return;
-                    } else {
-                        selected++;
                     }
                 }
-                model.removeElementAt(selected);
+                model.removeElementAt(selected+1);
                 reindex();
             }
         });
