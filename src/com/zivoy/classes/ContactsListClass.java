@@ -1,4 +1,7 @@
-package com.zivoy;
+package com.zivoy.classes;
+
+import com.zivoy.keyHandlers.Key;
+import com.zivoy.keyHandlers.PrivateKey;
 
 import javax.swing.*;
 
@@ -8,7 +11,7 @@ public class ContactsListClass {
     private DefaultListModel<Element> model;
     private Element myPrivate;
 
-    ContactsListClass(JList<Element> list, PrivateKey mykey) {
+    public ContactsListClass(JList<Element> list, PrivateKey mykey) {
         this.list = list;
         this.model = (DefaultListModel<Element>) list.getModel();
         this.myPrivate = new Element("Me - Decrypt", mykey, this.model.size());
@@ -16,7 +19,7 @@ public class ContactsListClass {
         list.setSelectedIndex(0);
     }
 
-    void updatePrivateKey(PrivateKey key) {
+    public void updatePrivateKey(PrivateKey key) {
         Element newPrivate = new Element("Me - Decrypt", key, 0);
         this.model.setElementAt(newPrivate, 0);
         this.myPrivate = newPrivate;
@@ -31,11 +34,11 @@ public class ContactsListClass {
         this.model.add(this.model.size(), value);
     }
 
-    Key getSelectedKey() {
+    public Key getSelectedKey() {
         return this.list.getSelectedValue().getKeyValue();
     }
 
-    boolean isSelected() {
+    public boolean isSelected() {
         return !this.list.isSelectionEmpty();
     }
 

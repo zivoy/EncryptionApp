@@ -1,4 +1,4 @@
-package com.zivoy;
+package com.zivoy.keyHandlers;
 
 public class PrivateKey extends Key {
     private int publicPart2;

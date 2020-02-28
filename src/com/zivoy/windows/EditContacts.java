@@ -1,4 +1,9 @@
-package com.zivoy;
+package com.zivoy.windows;
+
+import com.zivoy.classes.Element;
+import com.zivoy.keyHandlers.Key;
+import com.zivoy.keyHandlers.PrivateKey;
+import com.zivoy.keyHandlers.PublicKey;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

@@ -1,4 +1,4 @@
-package com.zivoy;
+package com.zivoy.classes;
 
 import java.util.ArrayList;
 import java.util.Scanner;

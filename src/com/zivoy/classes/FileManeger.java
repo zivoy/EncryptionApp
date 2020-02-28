@@ -1,4 +1,8 @@
-package com.zivoy;
+package com.zivoy.classes;
+
+import com.zivoy.keyHandlers.Key;
+import com.zivoy.keyHandlers.PrivateKey;
+import com.zivoy.keyHandlers.PublicKey;
 
 import javax.swing.*;
 import java.io.*;
@@ -9,7 +13,7 @@ import java.util.regex.Pattern;
 public class FileManeger {
     String Filename;
 
-    FileManeger(String Filename) {
+    public FileManeger(String Filename) {
         this.Filename = Filename;
         File tempFile = new File(this.Filename);
         if (!tempFile.exists()) {
@@ -118,10 +122,10 @@ public class FileManeger {
 
     }
 
-    static class loadout {
-        PrivateKey privateKey;
-        PublicKey publicKey;
-        DefaultListModel<Element> model;
+    public static class loadout {
+        public PrivateKey privateKey;
+        public PublicKey publicKey;
+        public DefaultListModel<Element> model;
 
         loadout(PrivateKey privateKey, PublicKey publicKey, DefaultListModel<Element> model) {
             this.privateKey = privateKey;

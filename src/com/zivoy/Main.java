@@ -1,5 +1,7 @@
 package com.zivoy;
 
+import com.zivoy.windows.ApplicationWindow;
+
 import javax.swing.*;
 
 public class Main {

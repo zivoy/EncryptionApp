@@ -1,4 +1,4 @@
-package com.zivoy;
+package com.zivoy.classes;
 
 public class BadLine extends Exception {
 }

@@ -1,4 +1,6 @@
-package com.zivoy;
+package com.zivoy.classes;
+
+import com.zivoy.keyHandlers.Key;
 
 import java.util.Objects;
 
@@ -7,7 +9,7 @@ public class Element {
     public int index;
     private Key keyValue;
 
-    Element(String name, Key keyValue, int index) {
+    public Element(String name, Key keyValue, int index) {
         this.name = name;
         this.keyValue = keyValue;
         this.index = index;

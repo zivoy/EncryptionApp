@@ -1,6 +1,12 @@
-package com.zivoy;
+package com.zivoy.windows;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import com.zivoy.classes.ContactsListClass;
+import com.zivoy.classes.Element;
+import com.zivoy.classes.FileManeger;
+import com.zivoy.keyHandlers.Key;
+import com.zivoy.keyHandlers.PrivateKey;
+import com.zivoy.keyHandlers.PublicKey;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
