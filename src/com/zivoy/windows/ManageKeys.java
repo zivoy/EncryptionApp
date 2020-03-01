@@ -1,5 +1,6 @@
 package com.zivoy.windows;
 
+import com.zivoy.keyHandlers.Key;
 import com.zivoy.keyHandlers.PrivateKey;
 import com.zivoy.keyHandlers.PublicKey;
 
@@ -70,8 +71,7 @@ public class ManageKeys extends JDialog {
         }
         currPrivate = PrivateKey.fromString(PrivateKeyFeild.getText());
         currPublic = PublicKey.fromString(PublicKeyFeild.getText());
-        String test = "Hello, World!";
-        if (!currPrivate.decode(currPublic.encode(test)).equals(test)) {
+        if (!Key.validateKeyPair(currPrivate, currPublic)) {
             JOptionPane.showMessageDialog(null, "This is not is not a valid key pair",
                     "Error -- invalid key pair", JOptionPane.ERROR_MESSAGE);
             return;

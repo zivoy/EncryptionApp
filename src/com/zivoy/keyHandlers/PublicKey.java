@@ -1,15 +1,20 @@
 package com.zivoy.keyHandlers;
 
 public class PublicKey extends Key {
-    public PublicKey(int part1, int part2) {
+    public PublicKey(int part1, int part2, int checkSumPart1, int checkSumPart2) {
         this.part1 = part1;
         this.part2 = part2;
+        this.checkSumPart1 = checkSumPart1;
+        this.checkSumPart2 = checkSumPart2;
     }
 
     public static PublicKey fromString(String key) {
+        int checkSumP1 = key.charAt(0);
+        int checkSumP2 = key.charAt(key.length()-1);
+        key = key.substring(1,key.length()-1);
         String deKey = String.valueOf(toNum(key));
         int[] parts = splitKey(deKey);
-        return new PublicKey(parts[0], parts[1]);
+        return new PublicKey(parts[0], parts[1], checkSumP1, checkSumP2);
     }
 
     public String encode(String message, int n) {
@@ -29,17 +34,17 @@ public class PublicKey extends Key {
         return this.getKey();
     }
 
-    public boolean validate() {
-        String output;
-        try {
-            output = this.encode("Hello, World!");
-        } catch (Exception e) {
-            return false;
-        }
-        for (char i : output.toCharArray()) {
-            if (!((i <= 'z' && i >= 'a') || (i <= 'Z' && i >= 'A') || i == ' '))
-                return false;
-        }
-        return true;
-    }
+//    public boolean validate() {
+//        String output;
+//        try {
+//            output = this.encode("Hello, World!");
+//        } catch (Exception e) {
+//            return false;
+//        }
+//        for (char i : output.toCharArray()) {
+//            if (!((i <= 'z' && i >= 'a') || (i <= 'Z' && i >= 'A') || i == ' '))
+//                return false;
+//        }
+//        return true;
+//    }
 }

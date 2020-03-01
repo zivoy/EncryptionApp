@@ -103,19 +103,17 @@ public class EditContacts extends JDialog {
                     } catch (Exception E) {
                         fail = true;
                     }
-                    if (fail || !((PublicKey) key).validate()) {
-                        JOptionPane.showMessageDialog(null, "I don't think that key is correct",
-                                "Error -- invalid public key", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
                 } else {
                     try {
                         key = PrivateKey.fromString(keyFeild.getText());
                     } catch (Exception E) {
-                        JOptionPane.showMessageDialog(null, "I don't think that key is correct",
-                                "Error -- invalid public key", JOptionPane.ERROR_MESSAGE);
-                        return;
+                        fail = true;
                     }
+                }
+                if (fail || !key.validateKey()) {
+                    JOptionPane.showMessageDialog(null, "I don't think that key is correct",
+                            "Error -- invalid key", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
                 Element entery = new Element(name, key, model.size() + 1);
                 model.addElement(entery);

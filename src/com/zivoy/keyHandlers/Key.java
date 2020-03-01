@@ -10,6 +10,9 @@ public class Key {
     public final Integer[] cached_primes;
     public int part1;
     public int part2;
+    public int checkSumPart1;
+    public int checkSumPart2;
+
     Random random = new Random();
     int minPrime = 1009;
     int maxPrime = 7028;
@@ -242,7 +245,7 @@ public class Key {
         String n = String.format("%07d", this.part1);
         String e = String.format("%07d", this.part2);
 
-        return toEnc(Long.parseLong(n + e));
+        return (char) this.checkSumPart1 + toEnc(Long.parseLong(n + e)) + (char) this.checkSumPart2;
     }
 
     public static String strip(String input, char character){
@@ -252,5 +255,23 @@ public class Key {
 
     public static String strip(String input){
         return strip(input, ' ');
+    }
+
+    public final int checksum(int number){
+        return toEnc(number % 53).charAt(2);
+    }
+
+    public boolean validateKey(){
+        return this.checkSumPart1 == checksum(this.part1) && this.checkSumPart2 == checksum(this.part2);
+    }
+
+    public static boolean validateKeyPair(PrivateKey privateKey, PublicKey publicKey){
+        boolean test1 = privateKey.validateKey() && publicKey.validateKey() &&
+                privateKey.checkSumPart1 == publicKey.checkSumPart1;
+        if (test1){
+            String test = "Hello, World!";
+            return privateKey.decode(publicKey.encode(test)).equals(test);
+        }
+        return false;
     }
 }
