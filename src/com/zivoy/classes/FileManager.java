@@ -94,7 +94,6 @@ public class FileManager {
                     }
                     contacts.addElement(item);
             }
-            System.out.println(st);
         }
         return new loadout(privateKey, publicKey, contacts);
     }
