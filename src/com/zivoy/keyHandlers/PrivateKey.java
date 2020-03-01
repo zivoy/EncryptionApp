@@ -30,6 +30,10 @@ public class PrivateKey extends Key {
         return stringBuilder.toString();
     }
 
+    private static long reverse(long number) {
+        return Long.parseLong(reverse(String.valueOf(number)));
+    }
+
     public static PrivateKey fromString(String key) {
         String deKey = reverse(String.valueOf(toNum(key)));
         int[] parts = splitKey(deKey);
@@ -74,10 +78,7 @@ public class PrivateKey extends Key {
 
     @Override
     public String getKey() {
-        String n = String.format("%07d", this.part1);
-        String d = String.format("%07d", this.part2);
-
-        return toEnc(Long.parseLong(reverse(n + d)));
+        return toEnc(reverse(toNum(super.getKey())));
     }
 
     @Override

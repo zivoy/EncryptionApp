@@ -17,19 +17,11 @@ public class PublicKey extends Key {
         for (int i = 0; i < n; i++) {
             output = processNums(crypt(processText(output)));
         }
-        return output.replaceAll("^ +", "");
+        return strip(output);
     }
 
     public String encode(String message) {
         return encode(message, 1);
-    }
-
-    @Override
-    public String getKey() {
-        String n = String.format("%07d", this.part1);
-        String e = String.format("%07d", this.part2);
-
-        return toEnc(Long.parseLong(n + e));
     }
 
     @Override

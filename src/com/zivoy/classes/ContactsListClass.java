@@ -23,11 +23,6 @@ public class ContactsListClass {
         Element newPrivate = new Element("Me - Decrypt", key, 0);
         this.model.setElementAt(newPrivate, 0);
         this.myPrivate = newPrivate;
-        //this.list.setModel(this.model);
-    }
-
-    void appendElement(String string, Key value) {
-        this.appendElement(new Element(string, value, this.model.size()));
     }
 
     void appendElement(Element value) {

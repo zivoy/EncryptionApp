@@ -10,10 +10,10 @@ import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileManeger {
+public class FileManager {
     String Filename;
 
-    public FileManeger(String Filename) {
+    public FileManager(String Filename) {
         this.Filename = Filename;
         File tempFile = new File(this.Filename);
         if (!tempFile.exists()) {

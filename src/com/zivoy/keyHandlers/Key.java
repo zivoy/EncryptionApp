@@ -42,12 +42,6 @@ public class Key {
         }
         return 1;
     }
-    /*public static int modInverse(int a, int b){
-        BigInteger tempA = BigInteger.valueOf(a);
-        BigInteger tempB = BigInteger.valueOf(b);
-        BigInteger tempC = tempA.modInverse(tempB);
-        return tempC.intValue();
-    }*/
 
     public static boolean isPrime(int n) {
         if (n % 2 == 0) return false;
@@ -102,14 +96,6 @@ public class Key {
         return reverseArrayList(digits);
     }
 
-    public static long[] convertBase(long[] n, int base_to) {
-        return convertBase(getNumFromList(n, 10), base_to);
-    }
-
-    public static long[] convertBase(long n, int base_to, int base_from) {
-        return convertBase(new long[]{n}, base_to, base_from);
-    }
-
     public static long[] convertBase(long[] n, int base_to, int base_from) {
         long[] nLs = reverseArrayList(n);
         long newnum = getNumFromList(nLs, base_from);
@@ -127,7 +113,7 @@ public class Key {
     public static long toNum(String inText) {
         ArrayList<Long> output = new ArrayList<>();
         long character;
-        for (char i : inText.replaceAll("^ +", "").toCharArray()) {
+        for (char i : strip(inText).toCharArray()) {
             character = (long) (i) - 39;
             if (i > 90)
                 character = (long) (i) - 97;
@@ -221,18 +207,13 @@ public class Key {
         return String.format("%1$3s", output.toString());
     }
 
-    public final String toEnc(long[] inNum) {
-        return toEnc(inNum[0]);
-    }
-
     public final String[] splitString(String string, int cut, String pad) {
         ArrayList<String> output = new ArrayList<>();
         for (int i = 0; i < string.length(); i += cut) {
             String prt = string.substring(i, i + cut);
-//            if (!pad.equals("")) {
-//                prt = String.format("%1$-" + cut + "s", prt);
-//                //"{0:{fill}>{amount}}".format(prt, fill = "-", amount = cut);
-//            }
+            if (!pad.equals("")) {
+                prt = String.format("%1$-" + cut + "s", prt);
+            }
             output.add(prt);
         }
         String[] out = new String[output.size()];
@@ -258,6 +239,18 @@ public class Key {
     }
 
     public String getKey() {
-        return String.valueOf(this.part1) + this.part2;
+        String n = String.format("%07d", this.part1);
+        String e = String.format("%07d", this.part2);
+
+        return toEnc(Long.parseLong(n + e));
+    }
+
+    public static String strip(String input, char character){
+        String regex = "(^"+character+"+|"+character+"+$)";
+        return input.replaceAll(regex, "");
+    }
+
+    public static String strip(String input){
+        return strip(input, ' ');
     }
 }

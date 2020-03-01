@@ -39,19 +39,10 @@ public class EditContacts extends JDialog {
         setModal(true);
         SelctedPanel.setVisible(false);
         setResizable(false);
-        //getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -62,45 +53,36 @@ public class EditContacts extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
 
-        list1.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!list1.isSelectionEmpty()) {
-                    selected = list1.getSelectedIndex();
-                } else {
-                    list1.setSelectedIndex(0);
-                    selected = 0;
-                }
-                if (model.size() == 0) selected = -1;
+        list1.addListSelectionListener(e -> {
+            if (!list1.isSelectionEmpty()) {
+                selected = list1.getSelectedIndex();
+            } else {
+                list1.setSelectedIndex(0);
+                selected = 0;
             }
+            if (model.size() == 0) selected = -1;
         });
 
-        removeContactButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (model.size() > 0) {
-                    selected -= 1;
-                    list1.setSelectedIndex(selected);
-                } else {
-                    selected = -1;
-                }
-                if (selected == -1) {
-                    if (list1.getModel().getSize() == 0) {
-                        JOptionPane.showMessageDialog(null, "Select a contact first",
-                                "Error -- no contact selected", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                }
-                model.removeElementAt(selected+1);
-                reindex();
+        removeContactButton.addActionListener(e -> {
+            if (model.size() > 0) {
+                selected -= 1;
+                list1.setSelectedIndex(selected);
+            } else {
+                selected = -1;
             }
+            if (selected == -1) {
+                if (list1.getModel().getSize() == 0) {
+                    JOptionPane.showMessageDialog(null, "Select a contact first",
+                            "Error -- no contact selected", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            model.removeElementAt(selected+1);
+            reindex();
         });
 
         Action action = new AbstractAction() {
@@ -146,25 +128,19 @@ public class EditContacts extends JDialog {
         keyFeild.addActionListener(action);
         addContactButton.addActionListener(action);
 
-        list1.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!list1.isSelectionEmpty()) {
-                    SelctedPanel.setVisible(true);
-                    SelectedFeild.setText(list1.getSelectedValue().getKeyValue().getKey());
-                } else {
-                    SelctedPanel.setVisible(false);
-                }
+        list1.addListSelectionListener(e -> {
+            if (!list1.isSelectionEmpty()) {
+                SelctedPanel.setVisible(true);
+                SelectedFeild.setText(list1.getSelectedValue().getKeyValue().getKey());
+            } else {
+                SelctedPanel.setVisible(false);
             }
         });
-        addPrivateCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (addPrivateCheckBox.isSelected()) {
-                    KeyTypeName.setText("Private Key:");
-                } else {
-                    KeyTypeName.setText("Public Key:");
-                }
+        addPrivateCheckBox.addActionListener(e -> {
+            if (addPrivateCheckBox.isSelected()) {
+                KeyTypeName.setText("Private Key:");
+            } else {
+                KeyTypeName.setText("Public Key:");
             }
         });
     }

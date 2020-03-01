@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <scrollpane id="e92e1" binding="ConstactsScollFeild">
+      <scrollpane id="e92e1">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="1" use-parent-layout="false">
             <preferred-size width="158" height="50"/>
@@ -43,7 +43,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <scrollpane id="2daa0" binding="InputScrollArea">
+          <scrollpane id="2daa0">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="170" height="150"/>
@@ -62,7 +62,7 @@
               </component>
             </children>
           </scrollpane>
-          <scrollpane id="d2635" binding="OutputScrollArea">
+          <scrollpane id="d2635">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="170" height="150"/>
@@ -141,7 +141,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="23efc" class="javax.swing.JLabel" binding="PublicKeyLabel">
+          <component id="23efc" class="javax.swing.JLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

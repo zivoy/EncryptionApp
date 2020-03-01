@@ -3,16 +3,12 @@ package com.zivoy.windows;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import com.zivoy.classes.ContactsListClass;
 import com.zivoy.classes.Element;
-import com.zivoy.classes.FileManeger;
+import com.zivoy.classes.FileManager;
 import com.zivoy.keyHandlers.Key;
 import com.zivoy.keyHandlers.PrivateKey;
 import com.zivoy.keyHandlers.PublicKey;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ApplicationWindow extends JFrame {
     private JPanel mainPanel;
@@ -23,16 +19,12 @@ public class ApplicationWindow extends JFrame {
     private JButton manageContactsButton;
     private JButton manageKeysButton;
     private JTextField PublicKeyFeild;
-    private JScrollPane ConstactsScollFeild;
-    private JScrollPane InputScrollArea;
-    private JScrollPane OutputScrollArea;
-    private JLabel PublicKeyLabel;
     private ContactsListClass contactList;
 
     private Key selected;
     private PrivateKey myPrivate;
     private PublicKey myPublic;
-    private FileManeger contactSaver;
+    private FileManager contactSaver;
 
     public ApplicationWindow(String title) {
         super(title);
@@ -57,47 +49,36 @@ public class ApplicationWindow extends JFrame {
         setup();
         this.pack();
 
-        encryptDecryptButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = InputTextFeild.getText();
-                if (text.equals("")) ;
-                else if (selected instanceof PrivateKey) {
-                    text = ((PrivateKey) selected).decode(text);
-                } else if (selected instanceof PublicKey) {
-                    text = ((PublicKey) selected).encode(text);
-                }
-                OutputTextArea.setText(text);
+        encryptDecryptButton.addActionListener(e -> {
+            String text = InputTextFeild.getText();
+            if (text.equals("")) {
+            }
+            else if (selected instanceof PrivateKey) {
+                text = ((PrivateKey) selected).decode(text);
+            } else if (selected instanceof PublicKey) {
+                text = ((PublicKey) selected).encode(text);
+            }
+            OutputTextArea.setText(text);
+        });
+        ContactsList.addListSelectionListener(e -> {
+            if (contactList.isSelected()) {
+                selected = contactList.getSelectedKey();
+                updateButton();
+            } else {
+                ContactsList.setSelectedIndex(0);
             }
         });
-        ContactsList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (contactList.isSelected()) {
-                    selected = contactList.getSelectedKey();
-                    updateButton();
-                } else {
-                    ContactsList.setSelectedIndex(0);
-                }
-            }
+        manageContactsButton.addActionListener(e -> {
+            load();
+            JDialog contacts = new EditContacts(new ContactsEditsTransfer(contactList.getModel()));
+            contacts.pack();
+            contacts.setVisible(true);
         });
-        manageContactsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                load();
-                JDialog contacts = new EditContacts(new ContactsEditsTransfer(contactList.getModel()));
-                contacts.pack();
-                contacts.setVisible(true);
-            }
-        });
-        manageKeysButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                load();
-                JDialog keyManeger = new ManageKeys(new ManageKeysTransfer(myPrivate, myPublic));
-                keyManeger.pack();
-                keyManeger.setVisible(true);
-            }
+        manageKeysButton.addActionListener(e -> {
+            load();
+            JDialog keyManeger = new ManageKeys(new ManageKeysTransfer(myPrivate, myPublic));
+            keyManeger.pack();
+            keyManeger.setVisible(true);
         });
     }
 
@@ -114,7 +95,7 @@ public class ApplicationWindow extends JFrame {
     }
 
     private void load() {
-        FileManeger.loadout items = contactSaver.load();
+        FileManager.loadout items = contactSaver.load();
         myPrivate = items.privateKey;
         myPublic = items.publicKey;
         contactList.setModel(items.model);
@@ -122,8 +103,8 @@ public class ApplicationWindow extends JFrame {
 
 
     private void setup() {
-        contactSaver = new FileManeger("./contacts.txt");  // todo maybe encrypt this file
-        FileManeger.loadout items = contactSaver.load();
+        contactSaver = new FileManager("./contacts.txt");  // todo maybe encrypt this file
+        FileManager.loadout items = contactSaver.load();
         myPrivate = items.privateKey;
         myPublic = items.publicKey;
         this.selected = myPrivate;
