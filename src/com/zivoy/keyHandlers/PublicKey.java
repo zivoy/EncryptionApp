@@ -20,7 +20,7 @@ public class PublicKey extends Key {
     public String encode(String message, int n) {
         String output = processNums(toAscii(message));
         for (int i = 0; i < n; i++) {
-            output = processNums(crypt(processText(output)));
+            output = processNums(crypt(processText(output), false));
         }
         return strip(output);
     }
@@ -33,18 +33,4 @@ public class PublicKey extends Key {
     public String toString() {
         return this.getKey();
     }
-
-//    public boolean validate() {
-//        String output;
-//        try {
-//            output = this.encode("Hello, World!");
-//        } catch (Exception e) {
-//            return false;
-//        }
-//        for (char i : output.toCharArray()) {
-//            if (!((i <= 'z' && i >= 'a') || (i <= 'Z' && i >= 'A') || i == ' '))
-//                return false;
-//        }
-//        return true;
-//    }
 }

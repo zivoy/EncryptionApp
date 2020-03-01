@@ -28,20 +28,20 @@ public class Key {
         cached_primes = cached_primes1;
     }
 
-    public static int gcd(int a, int b) {
+    public static long gcd(long a, long b) {
         if (b == 0) return a;
         return gcd(b, a % b);
     }
 
-    public static boolean areCoprime(int a, int b) {
+    public static boolean areCoprime(long a, long b) {
         return gcd(a, b) == 1;
     }
 
-    public static int modInverse(int a, int m) {
+    public static long modInverse(long a, long m) {
         long Ta = a % m;
-        for (long x = 1; x < (long) m; x++) {
-            if ((Ta * x) % (long) m == 1)
-                return (int) x;
+        for (long x = 1; x < m; x++) {
+            if ((Ta * x) % m == 1)
+                return x;
         }
         return 1;
     }
@@ -58,8 +58,8 @@ public class Key {
         return (random() * (max + 1 - min)) + min;
     }
 
-    public static int getRandom(int min, int max) {
-        return (int) Math.min(max, Math.max(min, round(getRandom((double) min, max))));
+    public static long getRandom(long min, long max) {
+        return Math.min(max, Math.max(min, round(getRandom((double) min, max))));
     }
 
     public static int[] splitKey(String key) {
@@ -164,27 +164,36 @@ public class Key {
         return out.toString();
     }
 
-    public final long[] crypt(long[] inMessage) {
+    public final long[] crypt(long[] inMessage, boolean dropSecond) {
         ArrayList<String> newMessage = new ArrayList<>();
 
         for (int i = 0; i < inMessage.length; i += 2) {
-            if ((i + 1) < inMessage.length) {
+            if (dropSecond) {
                 newMessage.add(String.format("%03d", inMessage[i]) + String.format("%03d", inMessage[i + 1]));
+                if ((i + 1) < inMessage.length)
+                    newMessage.add(String.format("%03d", inMessage[i]));
             } else {
-                newMessage.add(String.format("%03d", inMessage[i]));
+                newMessage.add(String.format("%03d", inMessage[i])+getRandom(100,999));
+                if ((i + 1) < inMessage.length)
+                newMessage.add(String.format("%03d", inMessage[i+1])+getRandom(100,999));
             }
         }
 
         ArrayList<Long> fMessage = new ArrayList<>();
 
+        if (dropSecond){
+            for (int i = newMessage.size()-1; i>0;i-=2){
+                newMessage.remove(i);
+            }
+        }
+
         for (String i : newMessage) {
             long tempMessage = enAndDecrypt(Long.parseLong(i));
             fMessage.add(tempMessage / 1000);
+            if (!dropSecond)
             fMessage.add(tempMessage % 1000);
         }
 
-        if (fMessage.get(fMessage.size() - 2) == 0)
-            fMessage.remove(fMessage.size() - 2);
 
         return convertPrimitive(fMessage);
     }

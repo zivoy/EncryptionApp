@@ -50,39 +50,27 @@ public class PrivateKey extends Key {
     }
 
     public PrivateKey makePrivateKey() {
-        int p = randPrime(minPrime, 1423);
-        int q;
+        long p = randPrime(minPrime, 1423);
+        long q;
         do {
             q = randPrime(minPrime, 7027);
         } while (p == q);
-        int n = p * q;
-        int yn = (q - 1) * (p - 1);                            //Totient
-        int e;
+        long n = p * q;
+        long yn = (q - 1) * (p - 1);                            //Totient
+        long e;
         do {
             e = getRandom(1000000, yn);
         } while (!areCoprime(e, yn));
-        int d = modInverse(e, yn);                           //Modular Inverse
+        long d = modInverse(e, yn);                           //Modular Inverse
 
-        if (!Key.validateKeyPair(new PrivateKey(n, d, checksum(n), checksum(d)),
-                new PublicKey(n, e, checksum(n), checksum(e))))
+        int in = (int)n;
+        int id = (int)d;
+        int ie = (int)e;
+
+        if (!Key.validateKeyPair(new PrivateKey(in, id, checksum(in), checksum(id)),
+                new PublicKey(in, ie, checksum(in), checksum(ie))))
             return makePrivateKey();
-        return new PrivateKey(d, n, e);
-    }
-
-    private int findE(int n, int d) {
-        int p, q, e;
-        do {
-            p = randPrime(minPrime, 1423);
-            q = n / p;
-        } while (!isPrime(q));
-        int yn = (q - 1) * (p - 1);
-
-        for (int i = 1000000; i <= yn; i++) {
-            e = getRandom(1000000, yn);
-            if (areCoprime(e, yn) && d == modInverse(e, yn))
-                return e;
-        }
-        return -1;
+        return new PrivateKey(id, in, ie);
     }
 
     @Override
@@ -107,7 +95,7 @@ public class PrivateKey extends Key {
         }
         String output = messageBuilder.toString();
         for (int i = 0; i < n; i++) {
-            output = processNums(crypt(processText(output)));
+            output = processNums(crypt(processText(output), true));
         }
         return toText(processText(output));
     }
@@ -117,8 +105,6 @@ public class PrivateKey extends Key {
     }
 
     public PublicKey makePublic() {
-        if (this.publicPart2 == -1)
-            this.publicPart2 = findE(this.part1, this.part2);
         return new PublicKey(this.part1, this.publicPart2, this.checkSumPart1, checksum(this.publicPart2));
     }
 }
