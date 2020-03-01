@@ -173,15 +173,17 @@ public class Key {
                 if ((i + 1) < inMessage.length)
                     newMessage.add(String.format("%03d", inMessage[i]));
             } else {
-                newMessage.add(String.format("%03d", inMessage[i])+getRandom(100,999));
+                String message = String.format("%03d", inMessage[i]);
                 if ((i + 1) < inMessage.length)
-                newMessage.add(String.format("%03d", inMessage[i+1])+getRandom(100,999));
+                    message += String.format("%03d", inMessage[i+1]);
+                message += getRandom(0,9);
+                newMessage.add(message);
             }
         }
 
         ArrayList<Long> fMessage = new ArrayList<>();
 
-        if (dropSecond){
+        if (dropSecond){//todo rewrite this completely
             for (int i = newMessage.size()-1; i>0;i-=2){
                 newMessage.remove(i);
             }
@@ -189,11 +191,14 @@ public class Key {
 
         for (String i : newMessage) {
             long tempMessage = enAndDecrypt(Long.parseLong(i));
+            if (dropSecond)
+                tempMessage = tempMessage / 10;
             fMessage.add(tempMessage / 1000);
-            if (!dropSecond)
             fMessage.add(tempMessage % 1000);
         }
 
+        if (fMessage.get(fMessage.size() - 2) == 0)
+            fMessage.remove(fMessage.size() - 2);
 
         return convertPrimitive(fMessage);
     }

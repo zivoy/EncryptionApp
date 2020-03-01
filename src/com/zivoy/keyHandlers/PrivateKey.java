@@ -90,7 +90,7 @@ public class PrivateKey extends Key {
 
     public String decode(String message, int n) {
         StringBuilder messageBuilder = new StringBuilder(message);
-        while (messageBuilder.length() % 3 != 0) {
+        while (messageBuilder.length() % 4 != 0) {
             messageBuilder.insert(0, " ");
         }
         String output = messageBuilder.toString();

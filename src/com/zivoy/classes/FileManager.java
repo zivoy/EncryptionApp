@@ -117,6 +117,9 @@ public class FileManager {
             default:
                 throw new BadLine();
         }
+        if (!keyObj.validateKey()){
+            throw new BadLine();
+        }
         return new Element(name, keyObj, curridx);
 
     }
