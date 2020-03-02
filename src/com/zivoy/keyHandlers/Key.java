@@ -169,9 +169,11 @@ public class Key {
 
         for (int i = 0; i < inMessage.length; i += 2) {
             if (dropSecond) {
-                newMessage.add(String.format("%03d", inMessage[i]) + String.format("%03d", inMessage[i + 1]));
-                if ((i + 1) < inMessage.length)
+                if ((i + 1) > (inMessage.length-1)) {
                     newMessage.add(String.format("%03d", inMessage[i]));
+                    continue;
+                }
+                newMessage.add(String.format("%03d", inMessage[i]) + String.format("%03d", inMessage[i + 1]));
             } else {
                 String message = String.format("%03d", inMessage[i]);
                 if ((i + 1) < inMessage.length)
@@ -183,11 +185,7 @@ public class Key {
 
         ArrayList<Long> fMessage = new ArrayList<>();
 
-        if (dropSecond){//todo rewrite this completely
-            for (int i = newMessage.size()-1; i>0;i-=2){
-                newMessage.remove(i);
-            }
-        }
+        //todo rewrite this completely
 
         for (String i : newMessage) {
             long tempMessage = enAndDecrypt(Long.parseLong(i));
